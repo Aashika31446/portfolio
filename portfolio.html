@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aashika Kumari | Portfolio</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg: #050816;
+            --card: #0f172a;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--blue), var(--purple));
+            border-radius: 20px;
+        }
+
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            z-index: 99999;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 18px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.25);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--blue);
+        }
+
+        .menu {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        section {
+            padding: 110px 10%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .hero-text {
+            max-width: 650px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .gradient {
+            background: linear-gradient(to right, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .typing {
+            font-size: 24px;
+            color: var(--blue);
+            font-weight: 500;
+            height: 35px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .hero-card {
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            margin-bottom: 25px;
+        }
+
+        .hero-card h3 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .btns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 26px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.4s;
+            display: inline-block;
+        }
+
+        .primary {
+            background: linear-gradient(to right, var(--blue), var(--purple));
+            color: white;
+        }
+
+        .secondary {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 38px;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -12px;
+            width: 80px;
+            height: 4px;
+            border-radius: 10px;
+            background: linear-gradient(to right, var(--blue), var(--purple));
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+        }
+
+        .card p,
+        li {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .skill {
+            margin-bottom: 25px;
+        }
+
+        .skill-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .bar {
+            height: 10px;
+            background: #1e293b;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .fill {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(to right, var(--blue), var(--purple));
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: 0.5s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-12px);
+        }
+
+        .project-img {
+            height: 180px;
+            background: linear-gradient(135deg, #1e3a8a, #6d28d9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-content h3 {
+            margin-bottom: 12px;
+        }
+
+        .project-content p {
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            padding: 8px 14px;
+            background: rgba(59, 130, 246, 0.15);
+            border-radius: 30px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(var(--blue), var(--purple));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -29px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            background: var(--blue);
+            border-radius: 50%;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .socials a {
+            padding: 14px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s;
+        }
+
+        .socials a:hover {
+            background: linear-gradient(to right, var(--blue), var(--purple));
+            transform: translateY(-5px);
+        }
+
+        footer {
+            padding: 30px;
+            text-align: center;
+            color: var(--muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .fade {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: 1s;
+        }
+
+        .fade.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media(max-width:900px) {
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 120px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 80px;
+                right: -100%;
+                flex-direction: column;
+                background: #08111f;
+                width: 220px;
+                padding: 25px;
+                transition: 0.4s;
+                border-radius: 15px;
+            }
+
+            .nav-links.active {
+                right: 20px;
+            }
+
+            .menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="progressBar"></div>
+    <canvas id="bg"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">Aashika.</div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+        <div class="menu" id="menuBtn">☰</div>
+    </nav>
+
+    <section class="hero" id="home">
+
+        <div class="hero-text fade">
+
+            <div class="hero-card">
+                <h3>Best Achievement</h3>
+                <p>
+                    Built intelligent machine learning based healthcare prediction systems and modern responsive web
+                    applications using HTML, CSS, JavaScript, MongoDB and backend technologies.
+                </p>
+            </div>
+
+            <h1>
+                Hi, I'm <span class="gradient">Aashika Kumari</span>
+            </h1>
+
+            <div class="typing" id="typing"></div>
+
+            <p>
+                B.Tech student passionate about Web Development, Data Analysis, IoT Systems and intelligent healthcare
+                applications. Experienced in building responsive applications, prediction systems, authentication
+                modules, analytics dashboards and interactive UI/UX based solutions.
+            </p>
+
+            <div class="btns">
+                <a href="#" class="btn primary">Download Resume</a>
+                <a href="#projects" class="btn secondary">View Projects</a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="about">
+
+        <h2 class="section-title fade">About Me</h2>
+
+        <div class="about-grid">
+
+            <div class="card fade">
+                <h3>Education</h3>
+                <p>
+                    Pursuing B.Tech in computer scinece with specilaization ai ml / Computer Science related domain
+                    under Dr. A.P.J Abdul Kalam Technical University, Lucknow from allenhouse institute of technology
+                    kanpur.
+                </p>
+            </div>
+
+            <div class="card fade">
+                <h3>Core Interests</h3>
+                <p>
+                    Data Analytics, Web Development, Healthcare Prediction Systems, IoT Monitoring Solutions, Frontend
+                    Design, UI/UX and Database Integration.
+                </p>
+            </div>
+
+            <div class="card fade">
+                <h3>Technical Strengths</h3>
+                <p>
+                    Frontend development using HTML, CSS, JavaScript and Bootstrap with backend integration, database
+                    management, responsive design and intelligent prediction systems.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="skills">
+
+        <h2 class="section-title fade">Skills</h2>
+
+        <div class="skills">
+
+            <div class="card fade">
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>HTML / CSS</span>
+                        <span>92%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:92%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>JavaScript</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:85%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>Bootstrap</span>
+                        <span>82%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:82%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>MongoDB</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:75%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card fade">
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>Machine Learning</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:80%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>Data Analysis</span>
+                        <span>84%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:84%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>Data Visualization</span>
+                        <span>78%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:78%"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <div class="skill-top">
+                        <span>IoT Systems</span>
+                        <span>72%</span>
+                    </div>
+                    <div class="bar">
+                        <div class="fill" style="width:72%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="projects">
+
+        <h2 class="section-title fade">Projects</h2>
+
+        <div class="projects">
+
+            <div class="project-card fade">
+
+                <div class="project-img">🫀</div>
+
+                <div class="project-content">
+                    <h3>Cardiac Prediction Tool</h3>
+
+                    <p>
+                        Machine learning based healthcare application that predicts cardiac arrest risk using health
+                        parameters like blood pressure, cholesterol and heart rate. Includes real-time prediction,
+                        user-friendly UI and preventive health recommendations.
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Healthcare AI</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">MongoDB</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="project-card fade">
+
+                <div class="project-img">📊</div>
+
+                <div class="project-content">
+                    <h3>Data Analysis & Visualization</h3>
+
+                    <p>
+                        Worked on data cleaning, filtering, duplicate removal, CSV analysis and graphical visualization
+                        using Python, Pandas and Matplotlib for business and housing datasets.
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Visualization</span>
+                        <span class="tag">Analytics</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="project-card fade">
+
+                <div class="project-img">🌱</div>
+
+                <div class="project-content">
+                    <h3>IoT drowwsiness detection tool</h3>
+
+                    <p>
+                        iot based using esp32 cam ftdi and make drowwsiness detection tool
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">IoT</span>
+                        <span class="tag">ESP32</span>
+                        <span class="tag">FTDI</span>
+                        <span class="tag">Automation</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="project-card fade">
+
+                <div class="project-img">🧠</div>
+
+                <div class="project-content">
+                    <h3>Quiz Application</h3>
+
+                    <p>
+                        Interactive responsive quiz application with authentication system, result tracking, MongoDB
+                        integration, feedback system and admin functionalities.
+                    </p>
+
+                    <div class="tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">JSP</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="experience">
+
+        <h2 class="section-title fade">Experience & Learning</h2>
+
+        <div class="timeline">
+
+            <div class="timeline-item fade">
+                <h3>Machine Learning & Healthcare Prediction</h3>
+                <p>
+                    Worked on predictive healthcare systems using algorithms like Random Forest, Logistic Regression and
+                    Support Vector Machine for cardiac risk analysis.
+                </p>
+            </div>
+
+            <div class="timeline-item fade">
+                <h3>Frontend & Responsive Web Design</h3>
+                <p>
+                    Developed modern responsive interfaces with interactive components, validation systems, smooth
+                    animations and optimized user experience.
+                </p>
+            </div>
+
+            <div class="timeline-item fade">
+                <h3>Data Analytics & Visualization</h3>
+                <p>
+                    Performed data preprocessing, cleaning, filtering and visualization using Python libraries for
+                    analytical insights and reporting.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="contact" id="contact">
+
+        <h2 class="section-title fade">Connect With Me</h2>
+
+        <div class="card fade">
+            <p>
+                Open to learning opportunities, collaborations, innovative projects and technology focused experiences
+                in Machine Learning, Data Analytics, Web Development and AI systems.
+            </p>
+
+            <div class="socials">
+                <a href="https://github.com/Aashika31446">GitHub</a>
+                <a href="https://www.linkedin.com/in/aashika-kumari-999b222a9/">LinkedIn</a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        © 2026 Aashika Kumari | Portfolio Website
+    </footer>
+
+    <script>
+
+        const typingText = [
+            "Machine Learning Enthusiast",
+            "Data Analysis Learner",
+            "Frontend Developer",
+            "IoT Project Builder",
+            "Healthcare AI Developer"
+        ];
+
+        let count = 0;
+        let index = 0;
+        let currentText = "";
+        let letter = "";
+
+        (function type() {
+
+            if (count === typingText.length) {
+                count = 0;
+            }
+
+            currentText = typingText[count];
+            letter = currentText.slice(0, ++index);
+
+            document.getElementById('typing').textContent = letter;
+
+            if (letter.length === currentText.length) {
+                count++;
+                index = 0;
+                setTimeout(type, 1500);
+            } else {
+                setTimeout(type, 80);
+            }
+
+        })();
+
+        window.onscroll = function () {
+
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        document.querySelectorAll('.fade').forEach((el) => {
+            observer.observe(el);
+        });
+
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.onclick = () => {
+            navLinks.classList.toggle('active');
+        };
+
+        const canvas = document.getElementById('bg');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray = [];
+
+        class Particle {
+            constructor(x, y, dx, dy, size) {
+                this.x = x;
+                this.y = y;
+                this.dx = dx;
+                this.dy = dy;
+                this.size = size;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(99,102,241,0.8)';
+                ctx.fill();
+            }
+
+            update() {
+
+                if (this.x > canvas.width || this.x < 0) {
+                    this.dx = -this.dx;
+                }
+
+                if (this.y > canvas.height || this.y < 0) {
+                    this.dy = -this.dy;
+                }
+
+                this.x += this.dx;
+                this.y += this.dy;
+
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+
+            for (let i = 0; i < 90; i++) {
+
+                let size = Math.random() * 2;
+                let x = Math.random() * innerWidth;
+                let y = Math.random() * innerHeight;
+                let dx = (Math.random() - 0.5) * 1;
+                let dy = (Math.random() - 0.5) * 1;
+
+                particlesArray.push(new Particle(x, y, dx, dy, size));
+            }
+        }
+
+        function connect() {
+
+            for (let a = 0; a < particlesArray.length; a++) {
+
+                for (let b = a; b < particlesArray.length; b++) {
+
+                    let distance =
+                        ((particlesArray[a].x - particlesArray[b].x) *
+                            (particlesArray[a].x - particlesArray[b].x))
+                        +
+                        ((particlesArray[a].y - particlesArray[b].y) *
+                            (particlesArray[a].y - particlesArray[b].y));
+
+                    if (distance < 12000) {
+
+                        ctx.strokeStyle = 'rgba(99,102,241,0.08)';
+                        ctx.lineWidth = 1;
+
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+
+            requestAnimationFrame(animate);
+
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+
+            connect();
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('resize', () => {
+
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+
+            init();
+        });
+
+    </script>
+
+</body>
+
+</html>
